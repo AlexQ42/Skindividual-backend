@@ -24,13 +24,21 @@ class Skinevent {
         public string   $place,
         public DateTime $date,
         public string   $skinType,
-        public string   $eventType
+        public string   $eventType,
+        public float    $price,
+        public int      $availableSpots
+        //public String $description
+        //public Review[] $reviews
     ) {}
 }
 
 $events = [
-    new Skinevent('hallo', '3', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness'),
-    new Skinevent('ciao', '7', 'munich', (date_create("2023-09-28")), 'oily', 'counselling')
+    new Skinevent('hallo', '1', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness', 49.99, 30),
+    new Skinevent('ciao', '2', 'munich', (date_create("2023-09-28")), 'oily', 'counselling', 41.99, 40),
+    new Skinevent('hola', '3', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness',49.99, 30),
+    new Skinevent('hello', '4', 'frankfurt', (date_create("2023-07-28")), 'oily', 'counselling',41.99, 40),
+    new Skinevent('salut', '5', 'dresden', (date_create("2023-04-15")), 'dry', 'course', 24.99, 25),
+    new Skinevent('hi', '6', 'munich', (date_create("2023-09-18")), 'combination', 'counselling', 41.99, 40)
 ];
 Cache::put('events', $events);
 
@@ -46,7 +54,11 @@ Route::get('/events', function (Request $request)
         'enddate' => ['date', 'nullable'],
         'enddate' => 'exclude_if:startdate, null|after_or_equal:startdate',
         'skintype' => 'string|nullable',
-        'eventtype' => 'string|nullable'
+        'eventtype' => 'string|nullable',
+        'search' => 'string|nullable',
+        'sort' => 'string|nullable',
+        'page' => ['required', 'integer'],
+        'perpage' => ['required', 'integer']
     ]);
 
     //Getting Result
@@ -68,7 +80,7 @@ Route::get('/events', function (Request $request)
     }
     else $endDate = null;
 
-
+    //filter result
     foreach ($listedEvents as $event) {
         if (($request->input('place') === null || $event->place === $request->input('place')) &&                     // schauen ob "null" oder null zurückkommt
             (
@@ -83,6 +95,15 @@ Route::get('/events', function (Request $request)
             $result[] = $event;                      //adds event to array
         }
     }
+
+    //sort result
+
+    //paging
+    $page = $request->input('page') ?? 1;
+    $perpage = $request->input('perpage') ?? 4;
+    $result = array_slice($result, ($request->input('page') - 1) * $request->input('perpage'), $request->input('perpage'));
+
+
     return new JsonResponse($result, 200);
 });
 
