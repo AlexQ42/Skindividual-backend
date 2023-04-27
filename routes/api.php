@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Cache;
 */
 
 //Class Skinevent
-class Skinevent {
+class SkinEvent {
     public function __construct(
         public string   $name,
         public int      $id,
@@ -33,12 +33,12 @@ class Skinevent {
 }
 
 $events = [
-    new Skinevent('hallo', '1', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness', 49.99, 30),
-    new Skinevent('ciao', '2', 'munich', (date_create("2023-09-28")), 'oily', 'counselling', 41.99, 40),
-    new Skinevent('hola', '3', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness',49.99, 30),
-    new Skinevent('hello', '4', 'frankfurt', (date_create("2023-07-28")), 'oily', 'counselling',41.99, 40),
-    new Skinevent('salut', '5', 'dresden', (date_create("2023-04-15")), 'dry', 'course', 24.99, 25),
-    new Skinevent('hi', '6', 'munich', (date_create("2023-09-18")), 'combination', 'counselling', 41.99, 40)
+    new SkinEvent('hallo', '1', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness', 49.99, 30),
+    new SkinEvent('ciao', '2', 'munich', (date_create("2023-09-28")), 'oily', 'counselling', 41.99, 40),
+    new SkinEvent('hola', '3', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness',49.99, 30),
+    new SkinEvent('hello', '4', 'frankfurt', (date_create("2023-07-28")), 'oily', 'counselling',41.99, 40),
+    new SkinEvent('salut', '5', 'dresden', (date_create("2023-04-15")), 'dry', 'course', 24.99, 25),
+    new SkinEvent('hi', '6', 'munich', (date_create("2023-09-18")), 'combination', 'counselling', 41.99, 40)
 ];
 Cache::put('events', $events);
 
