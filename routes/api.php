@@ -16,38 +16,49 @@ use Illuminate\Support\Facades\Cache;
 |
 */
 
-//Class Skinevent
+//Enum SkinType
+enum SkinType: string
+{
+    case Dry = 'dry';
+    case Oily = 'oily';
+    case Combination = 'combination';
+    case Normal = 'normal';
+}
+
+
+//Class SkinEvent
 class SkinEvent {
     public function __construct(
         public string   $name,
         public int      $id,
         public string   $place,
         public DateTime $date,
-        public string   $skinType,
+        public SkinType $skinType,
         public string   $eventType,
         public float    $price,
-        public int      $availableSpots
-        //public String $description
+        public int      $availableSpots,
+        public String   $description
         //public Review[] $reviews
     ) {}
 }
 
+//create event-array (dummy) for cache - TODO: replace with ORM
 $events = [
-    new SkinEvent('hallo', '1', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness', 49.99, 30),
-    new SkinEvent('ciao', '2', 'munich', (date_create("2023-09-28")), 'oily', 'counselling', 41.99, 40),
-    new SkinEvent('hola', '3', 'hamburg', (date_create("2023-06-15")), 'dry', 'wellness',49.99, 30),
-    new SkinEvent('hello', '4', 'frankfurt', (date_create("2023-07-28")), 'oily', 'counselling',41.99, 40),
-    new SkinEvent('salut', '5', 'dresden', (date_create("2023-04-15")), 'dry', 'course', 24.99, 25),
-    new SkinEvent('hi', '6', 'munich', (date_create("2023-09-18")), 'combination', 'counselling', 41.99, 40)
+    new SkinEvent('hallo', '1', 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness', 49.99, 30, 'bla'),
+    new SkinEvent('ciao', '2', 'munich', (date_create("2023-09-28")), SkinType::Oily, 'counselling', 41.99, 40, 'bla'),
+    new SkinEvent('hola', '3', 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness',49.99, 30, 'bla'),
+    new SkinEvent('hello', '4', 'frankfurt', (date_create("2023-07-28")), SkinType::Dry, 'counselling',41.99, 40, 'bla'),
+    new SkinEvent('salut', '5', 'dresden', (date_create("2023-04-15")), SkinType::Combination, 'course', 24.99, 25, 'bla'),
+    new SkinEvent('hi', '6', 'munich', (date_create("2023-09-18")), SkinType::Oily, 'counselling', 41.99, 40, 'bla')
 ];
 Cache::put('events', $events);
 
 
-// GET all Events + Filter
+// Route 1 - GET Event List + Filter, Sorting, Paging
 Route::get('/events', function (Request $request)
 {
 
-    //Validation
+    // Validation of request (Query Params)
     $request->validate([
         'place' => 'string|nullable',
         'startdate' => ['date', 'nullable'],
@@ -58,13 +69,16 @@ Route::get('/events', function (Request $request)
         'search' => 'string|nullable',
         'sort' => 'string|nullable',
         'page' => ['required', 'integer'],
-        'perpage' => ['required', 'integer']
+        'per-page' => ['required', 'integer']
     ]);
 
-    //Getting Result
-    $listedEvents=Cache::get('events', []);
-    $result = [];
 
+    // Get event array from Cache - TODO: replace with ORM
+    $allEvents=Cache::get('events', []);
+
+
+    //filter event array, save in result array - TODO: replace with ORM
+    $result = [];
 
     if($request->input('startdate') != null)
     {
@@ -80,8 +94,7 @@ Route::get('/events', function (Request $request)
     }
     else $endDate = null;
 
-    //filter result
-    foreach ($listedEvents as $event) {
+    foreach ($allEvents as $event) {
         if (($request->input('place') === null || $event->place === $request->input('place')) &&                     // schauen ob "null" oder null zurückkommt
             (
                 ($startDate === null && $endDate === null) ||
@@ -89,32 +102,34 @@ Route::get('/events', function (Request $request)
                 ($endDate !== null && $startDate === null && $event->date <= $endDate) ||
                 ($event->date >= $startDate && $event->date <= $endDate)
             ) &&
-        ($request->input('skintype') === null || $event->skinType === $request->input('skintype')) &&
+        ($request->input('skintype') === null || $event->skinType->value === $request->input('skintype')) &&
         ($request->input('eventtype') === null || $event->eventType === $request->input('eventtype')))
         {
             $result[] = $event;                      //adds event to array
         }
     }
 
-    //sort result
+    // sort result
+    //TODO: sort with ORM
 
-    //paging
+    // paging: cutting out the list part that is requested
     $page = $request->input('page') ?? 1;
-    $perpage = $request->input('perpage') ?? 4;
-    $result = array_slice($result, ($request->input('page') - 1) * $request->input('perpage'), $request->input('perpage'));
+    $perpage = $request->input('per-page') ?? 4;
+    $result = array_slice($result, ($page - 1) * $perpage, $perpage);
 
 
+    // sending the result
     return new JsonResponse($result, 200);
 });
 
 
-// GET event by ID
+// Route 2 - GET event by ID
 Route::get('/events/{eventId}', function (int $eventId)
 {
-    //Validation
+    // Validation (ID must not be negative)
     if($eventId < 0) return response(null, 400);
 
-    //Getting Result
+    // Searching event list for queried id
     $events = Cache::get('events', []);
     $result = null;
     foreach ($events as $event) {
@@ -123,6 +138,11 @@ Route::get('/events/{eventId}', function (int $eventId)
             break;
         }
     }
+
+    // Error Code if id not found
     if ($result === null) return response(null, 404);
+
+
+    // sending the result
     return new JsonResponse($result, 200);
 });
