@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\EventsController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,12 +45,12 @@ class SkinEvent {
 
 //create event-array (dummy) for cache - TODO: replace with ORM
 $events = [
-    new SkinEvent('hallo', '1', 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness', 49.99, 30, 'bla'),
-    new SkinEvent('ciao', '2', 'munich', (date_create("2023-09-28")), SkinType::Oily, 'counselling', 41.99, 40, 'bla'),
-    new SkinEvent('hola', '3', 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness',49.99, 30, 'bla'),
-    new SkinEvent('hello', '4', 'frankfurt', (date_create("2023-07-28")), SkinType::Dry, 'counselling',41.99, 40, 'bla'),
-    new SkinEvent('salut', '5', 'dresden', (date_create("2023-04-15")), SkinType::Combination, 'course', 24.99, 25, 'bla'),
-    new SkinEvent('hi', '6', 'munich', (date_create("2023-09-18")), SkinType::Oily, 'counselling', 41.99, 40, 'bla')
+    new SkinEvent('hallo', 1, 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness', 49.99, 30, 'bla'),
+    new SkinEvent('ciao', 2, 'munich', (date_create("2023-09-28")), SkinType::Oily, 'counselling', 41.99, 40, 'bla'),
+    new SkinEvent('hola', 3, 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness',49.99, 30, 'bla'),
+    new SkinEvent('hello', 4, 'frankfurt', (date_create("2023-07-28")), SkinType::Dry, 'counselling',41.99, 40, 'bla'),
+    new SkinEvent('salut', 5, 'dresden', (date_create("2023-04-15")), SkinType::Combination, 'course', 24.99, 25, 'bla'),
+    new SkinEvent('hi', 6, 'munich', (date_create("2023-09-18")), SkinType::Oily, 'counselling', 41.99, 40, 'bla')
 ];
 Cache::put('events', $events);
 
@@ -124,25 +125,4 @@ Route::get('/events', function (Request $request)
 
 
 // Route 2 - GET event by ID
-Route::get('/events/{eventId}', function (int $eventId)
-{
-    // Validation (ID must not be negative)
-    if($eventId < 0) return response(null, 400);
-
-    // Searching event list for queried id
-    $events = Cache::get('events', []);
-    $result = null;
-    foreach ($events as $event) {
-        if ($event->id === $eventId) {
-            $result = $event;
-            break;
-        }
-    }
-
-    // Error Code if id not found
-    if ($result === null) return response(null, 404);
-
-
-    // sending the result
-    return new JsonResponse($result, 200);
-});
+Route::get('/events/{eventId}', [EventsController::class, 'getEventById']);
