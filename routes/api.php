@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\EventsController;
+use App\Models\SkinType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
@@ -17,13 +18,7 @@ use Illuminate\Support\Facades\Cache;
 */
 
 //Enum SkinType
-enum SkinType: string
-{
-    case Dry = 'dry';
-    case Oily = 'oily';
-    case Combination = 'combination';
-    case Normal = 'normal';
-}
+
 
 
 //Class SkinEvent
