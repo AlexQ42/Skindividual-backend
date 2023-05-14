@@ -3,29 +3,22 @@
 namespace App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use App\Models\Event;
 
 class EventsController
 {
     // Endpoint 1
-    function getEventById(int $eventId)
+    function getEventById(int $eventId): JsonResponse
     {
         // Validation (ID must not be negative)
-        if($eventId < 0) return response(null, 400);
+        if($eventId < 0) return new JsonResponse(null, 400);
 
-        // Searching event list for queried id
-        $events = Cache::get('events', []);
-        $result = null;
-        foreach ($events as $event) {
-            if ($event->id === $eventId) {
-                $result = $event;
-                break;
-            }
-        }
+        // Searching database for queried id
+        $result = Event::find($eventId);
 
         // Error Code if id not found
-        if ($result === null) return response(null, 404);
+        if ($result === null) return new JsonResponse(null, 404);
 
 
         // sending the result
@@ -34,7 +27,7 @@ class EventsController
 
 
     // Endpoint 2
-    function getEvents(Request $request)
+    function getEvents(Request $request): JsonResponse
     {
         // Validation of request (Query Params)
         $request->validate([
@@ -52,8 +45,12 @@ class EventsController
 
 
         // Get event array from Cache - TODO: replace with ORM
-        $allEvents=Cache::get('events', []);
+        $allEvents=Event::all();
 
+        /*if(request('place'))
+        {
+            $allEvents->where('LOWER(place)', '=', $request->input('place'));
+        }*/
 
         //filter event array, save in result array - TODO: replace with ORM
         $result = [];
