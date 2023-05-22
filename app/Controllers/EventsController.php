@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Review;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Event;
@@ -40,7 +41,10 @@ class EventsController
         ]);
 
         // create query for Database
-        $query=Event::query();
+        $query=Event::query()
+            ->leftJoin('reviews', 'events.id', '=', 'reviews.event_id')
+            ->selectRaw('events.*, avg(reviews.value) as rating')
+            ->groupBy('events.id');
 
         // apply place and enum filters
         if(request('place')) $query->whereRaw('LOWER(events.place) LIKE ?', ['%' . strtolower($request->input('place')) . '%']);
@@ -70,7 +74,6 @@ class EventsController
 
         if ($request->input('sort') === 'price') $query->orderBy('price', 'desc');
 
-        $result = $query->get();
 
         if ($request->input('sort') === 'reviews')
         {
@@ -81,12 +84,10 @@ class EventsController
                     Event::selectRaw("SELECT e.id, AVG(r.value) FROM events e join reviews r on e.id = r.event_id GROUP BY event_id");
                 $query->orderBy($subquery);*/
 
-            $result->sort(
-                function () {
-
-                }
-            );
+            $query->orderBy('rating', 'DESC');
         }
+
+        $result = $query->get();
 
 
         // pagination with ORM
