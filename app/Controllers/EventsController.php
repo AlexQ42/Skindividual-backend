@@ -70,38 +70,37 @@ class EventsController
         if($startDate !== null) $query->where('date', '>=', $startDate);
         if($endDate !== null) $query->where('date', '<=', $endDate);
 
-        $query->orderBy('date');
-
-        if ($request->input('sort') === 'price') $query->orderBy('price', 'desc');
-
-
-        if ($request->input('sort') === 'reviews')
+        // sorting
+        if ($request->input('sort') === 'price')
         {
-                // TODO sort by reviews
-                //Select avg(value) from reviews r join events e group by event_id;// TODO falsch
-                //Select * from events order by (SELECT AVG(r.value) FROM events e join reviews r on e.id = r.event_id GROUP BY event_id)
-                /*$subquery =
-                    Event::selectRaw("SELECT e.id, AVG(r.value) FROM events e join reviews r on e.id = r.event_id GROUP BY event_id");
-                $query->orderBy($subquery);*/
-
-            $query->orderBy('rating', 'DESC');
+            $query->orderBy('price', 'desc');
+        }
+        else if ($request->input('sort') === 'reviews')
+        {
+            $query->orderBy('rating', 'desc');
+        }
+        else if ($request->input('sort') === 'date')
+        {
+            $query->orderBy('date');
+        }
+        else
+        {
+            $query->orderBy('date');
         }
 
-        $result = $query->get();
-
-
         // pagination with ORM
-        /*$perpage = $request->input('per-page') ?? 4;
-        if ($request->input('page') !==null) $query->paginate($perpage);*/
+        $perPage = $request->input('per-page') ?? 4;
+        if ($request->input('page') !==null) $query->paginate($perPage);
 
-        // pagination with php: cutting out the list part that is requested
+        /* pagination with php: cutting out the list part that is requested
         $page = $request->input('page') ?? 1;
         $perPage = $request->input('per-page') ?? 4;
         $resultArray = $result->toArray();
-        $resultArray = array_slice($resultArray, ($page - 1) * $perPage, $perPage);
+        $resultArray = array_slice($resultArray, ($page - 1) * $perPage, $perPage);*/
 
+        $result = $query->get();
 
         // sending the result
-        return new JsonResponse($resultArray, 200);
+        return new JsonResponse($result, 200);
     }
 }
