@@ -14,12 +14,8 @@ class EventsController
         // Validation (ID must not be negative)
         if($eventId < 0) return new JsonResponse(null, 400);
 
-        // Searching database for queried id
-        $result = Event::find($eventId);
-
-        // Error Code if id not found
-        if ($result === null) return new JsonResponse(null, 404);
-
+        // Searching database for queried id, automatic Error Code 404 if id not found
+        $result = Event::findOrFail($eventId);
 
         // sending the result
         return new JsonResponse($result, 200);
@@ -43,24 +39,21 @@ class EventsController
             'per-page' => ['required', 'integer']
         ]);
 
+        // create query for Database
+        $query=Event::query();
 
-        // Get event array from Cache - TODO: replace with ORM
-        $allEvents=Event::all();
+        // apply place and enum filters
+        if(request('place')) $query->whereRaw('LOWER(events.place) LIKE ?', ['%' . strtolower($request->input('place')) . '%']);
+        if(request('eventtype')) $query->whereRaw('LOWER(events.eventtype) LIKE ?', ['%' . strtolower($request->input('eventtype')) . '%']);
+        if(request('skintype')) $query->whereRaw('LOWER(events.skintype) LIKE ?', ['%' . strtolower($request->input('skintype')) . '%']);
 
-        /*if(request('place'))
-        {
-            $allEvents->where('LOWER(place)', '=', $request->input('place'));
-        }*/
-
-        //filter event array, save in result array - TODO: replace with ORM
-        $result = [];
-
-        if($request->input('startdate') != null)
+        // convert query parameter dates to DateTime
+        if($request->input('startdate') != null && $request->input('startdate') > today())
         {
             $startDate = date_create($request->input('startdate'));
             $startDate->setTime(0,0,0,0);
         }
-        else $startDate = null;
+        else $startDate = today();
 
         if($request->input('enddate') != null)
         {
@@ -69,31 +62,45 @@ class EventsController
         }
         else $endDate = null;
 
-        foreach ($allEvents as $event) {
-            if (($request->input('place') === null || $event->place === $request->input('place')) &&                     // schauen ob "null" oder null zurückkommt
-                (
-                    ($startDate === null && $endDate === null) ||
-                    ($startDate !== null && $endDate === null && $event->date >= $startDate) ||
-                    ($endDate !== null && $startDate === null && $event->date <= $endDate) ||
-                    ($event->date >= $startDate && $event->date <= $endDate)
-                ) &&
-                ($request->input('skintype') === null || $event->skinType->value === $request->input('skintype')) &&
-                ($request->input('eventtype') === null || $event->eventType === $request->input('eventtype')))
-            {
-                $result[] = $event;                      //adds event to array
-            }
+        // apply date filters
+        if($startDate !== null) $query->where('date', '>=', $startDate);
+        if($endDate !== null) $query->where('date', '<=', $endDate);
+
+        $query->orderBy('date');
+
+        if ($request->input('sort') === 'price') $query->orderBy('price', 'desc');
+
+        $result = $query->get();
+
+        if ($request->input('sort') === 'reviews')
+        {
+                // TODO sort by reviews
+                //Select avg(value) from reviews r join events e group by event_id;// TODO falsch
+                //Select * from events order by (SELECT AVG(r.value) FROM events e join reviews r on e.id = r.event_id GROUP BY event_id)
+                /*$subquery =
+                    Event::selectRaw("SELECT e.id, AVG(r.value) FROM events e join reviews r on e.id = r.event_id GROUP BY event_id");
+                $query->orderBy($subquery);*/
+
+            $result->sort(
+                function () {
+
+                }
+            );
         }
 
-        // sort result
-        //TODO: sort with ORM
 
-        // paging: cutting out the list part that is requested
+        // pagination with ORM
+        /*$perpage = $request->input('per-page') ?? 4;
+        if ($request->input('page') !==null) $query->paginate($perpage);*/
+
+        // pagination with php: cutting out the list part that is requested
         $page = $request->input('page') ?? 1;
-        $perpage = $request->input('per-page') ?? 4;
-        $result = array_slice($result, ($page - 1) * $perpage, $perpage);
+        $perPage = $request->input('per-page') ?? 4;
+        $resultArray = $result->toArray();
+        $resultArray = array_slice($resultArray, ($page - 1) * $perPage, $perPage);
 
 
         // sending the result
-        return new JsonResponse($result, 200);
+        return new JsonResponse($resultArray, 200);
     }
 }
