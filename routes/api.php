@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\EventsController;
+use App\Http\Controllers\OrdersController;
 use App\Models\SkinType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,3 +56,9 @@ Route::get('/events', [EventsController::class, 'getEvents']);
 
 // Route 2 - GET event by ID
 Route::get('/events/{eventId}', [EventsController::class, 'getEventById']);
+
+//Route X - GET order by ID
+Route::get('/orders/{userId}', [OrdersController::class, 'getOrderById']);
+
+//Route X - POST order
+Route::post('/orders', [OrdersController::class, 'postOrder']);
