@@ -2,6 +2,7 @@
 
 use App\Controllers\EventsController;
 use App\Http\Controllers\OrdersController;
+use App\Controllers\UserController;
 use App\Models\SkinType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,3 +63,12 @@ Route::get('/orders/{userId}', [OrdersController::class, 'getOrderById']);
 
 //Route X - POST order
 Route::post('/orders', [OrdersController::class, 'postOrder']);
+
+// Route Lia GET User
+Route::get('/users/{userId}', [UserController::class, 'getUser']);
+
+// Route Lia POST User
+Route::post('/users', [UserController::class, 'postUser']);
+
+//Route Lia DELETE User
+Route::delete('/users/{userId}', [UserController::class, 'deleteUser']);
