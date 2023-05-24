@@ -1,6 +1,8 @@
 <?php
 
 use App\Controllers\EventsController;
+use App\Http\Controllers\OrdersController;
+use App\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
 use App\Models\SkinType;
 use Illuminate\Http\Request;
@@ -61,6 +63,23 @@ Route::get('/events', [EventsController::class, 'getEvents']);
 // Route 2 - GET event by ID
 Route::get('/events/{eventId}', [EventsController::class, 'getEventById']);
 
+//Route X - GET order by ID
+Route::get('/orders/{userId}', [OrdersController::class, 'getOrderById']);
+
+//Route X - POST order
+Route::post('/orders', [OrdersController::class, 'postOrder']);
+
+// Route Lia GET User
+Route::get('/users/{userId}', [UserController::class, 'getUser']);
+
+// Route Lia POST User
+Route::post('/users', [UserController::class, 'postUser']);
+
+//Route Lia DELETE User
+Route::delete('/users/{userId}', [UserController::class, 'deleteUser']);
+
+// Route Lia PATCH User
+Route::post('/users/{userId}', [UserController::class, 'patchUser']);
 //Route 1 - POST review
 Route::post('/events/{event_id}/reviews', [ReviewController::class, 'createReview']);
 //Route 2 - DELETE review
