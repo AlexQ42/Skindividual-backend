@@ -72,3 +72,6 @@ Route::post('/users', [UserController::class, 'postUser']);
 
 //Route Lia DELETE User
 Route::delete('/users/{userId}', [UserController::class, 'deleteUser']);
+
+// Route Lia PATCH User
+Route::post('/users/{userId}', [UserController::class, 'patchUser']);
