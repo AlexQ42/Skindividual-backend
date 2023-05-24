@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\EventsController;
+use App\Http\Controllers\ReviewController;
 use App\Models\SkinType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +34,12 @@ class SkinEvent {
         public float    $price,
         public int      $availableSpots,
         public String   $description
-        //public Review[] $reviews
     ) {}
+}
+class Reviews {
+    public function __construct(
+    public int $value,
+    ){}
 }
 
 //create event-array (dummy) for cache - TODO: replace with ORM
@@ -55,3 +60,9 @@ Route::get('/events', [EventsController::class, 'getEvents']);
 
 // Route 2 - GET event by ID
 Route::get('/events/{eventId}', [EventsController::class, 'getEventById']);
+
+//Route 1 - POST review
+Route::post('/events/{event_id}/reviews', [ReviewController::class, 'createReview']);
+//Route 2 - DELETE review
+Route::delete('/events/{event_id}/reviews/{review_id}', [ReviewController::class, 'destroyReview']);
+
