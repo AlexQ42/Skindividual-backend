@@ -21,9 +21,9 @@ class UserController extends Controller
     //GET User
     function getUser(Request $request): JsonResponse
     {
-        $user = $request->user();
+        $user = User::query()->where('id', '=', $request->user()->id)->with('orders')->get();
 
-        if($user->id < 0) return new JsonResponse("User ID is not valid", 400);
+        if ($user === null) return new JsonResponse(null,404);
 
         //sending result
         return new JsonResponse($user, 200);
@@ -62,7 +62,6 @@ class UserController extends Controller
         }
     }
 
-    //TODO PATCH User
     function patchUser (Request $request): JsonResponse
     {
 

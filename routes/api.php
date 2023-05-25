@@ -51,6 +51,8 @@ Route::post('/events/{event_id}/reviews', [ReviewController::class, 'createRevie
 // Route 11 - DELETE review
 Route::delete('/events/{event_id}/reviews/{review_id}', [ReviewController::class, 'destroyReview']);
 
+// TODO new class and Route for 'GET events and their reviews of logged-in user'
+
 // Routes 12-14 - Authorization
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login');   // needed for auth via middleware

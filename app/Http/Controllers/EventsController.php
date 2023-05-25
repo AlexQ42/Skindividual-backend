@@ -13,10 +13,13 @@ class EventsController extends Controller
     function getEventById(int $event_id): JsonResponse
     {
         // Validation (ID must not be negative)
-        if($event_id < 0) return new JsonResponse(null, 400);
+        if($event_id < 0) return new JsonResponse("Event ID is not valid", 400);
 
-        // Searching database for queried id, automatic Error Code 404 if id not found
-        $result = Event::findOrFail($event_id);
+        // Searching database for queried id
+        // Include reviews in the json response
+        $result = Event::query()->with('reviews')->where('id', '=', $event_id)->get();
+
+        if ($result === null) return new JsonResponse(null, 404);
 
         // sending the result
         return new JsonResponse($result, 200);
@@ -41,7 +44,9 @@ class EventsController extends Controller
         ]);
 
         // create query for Database
+        // TODO eliminate 'rating' and find other way to sort by average review value
         $query=Event::query()
+            ->with('reviews')
             ->leftJoin('reviews', 'events.id', '=', 'reviews.event_id')
             ->selectRaw('events.*, avg(reviews.value) as rating')
             ->groupBy('events.id');
