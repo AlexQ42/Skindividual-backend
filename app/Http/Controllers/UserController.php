@@ -63,11 +63,11 @@ class UserController extends Controller
     }
 
     //TODO PATCH User
-    function patchUser (int $userId, Request $request): JsonResponse
+    function patchUser (Request $request): JsonResponse
     {
 
     //check if user exists, looks for changes and changes them
-       $user = User::findOrFail($userId, 'id')->first();
+       $user = $request->user();
 
         if ($user === null)
         {

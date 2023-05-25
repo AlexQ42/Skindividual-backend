@@ -43,7 +43,7 @@ Route::post('/users', [UserController::class, 'postUser']);
 Route::delete('/users', [UserController::class, 'deleteUser']);
 
 // Route 9 - PATCH User
-Route::post('/users/{userId}', [UserController::class, 'patchUser']);
+Route::patch('/users', [UserController::class, 'patchUser']);
 
 // Route 10 - POST review
 Route::post('/events/{event_id}/reviews', [ReviewController::class, 'createReview']);
