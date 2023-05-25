@@ -46,7 +46,6 @@ class EventsController extends Controller
         // create query for Database
         // TODO eliminate 'rating' and find other way to sort by average review value
         $query=Event::query()
-            ->with('reviews')
             ->leftJoin('reviews', 'events.id', '=', 'reviews.event_id')
             ->selectRaw('events.*, avg(reviews.value) as rating')
             ->groupBy('events.id');

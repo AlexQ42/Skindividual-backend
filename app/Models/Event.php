@@ -58,6 +58,7 @@ class Event extends Model
     )
     {}*/
 
+    protected $with = ['reviews'];
 
     public function reviews(): HasMany
     {

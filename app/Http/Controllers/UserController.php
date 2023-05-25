@@ -21,9 +21,7 @@ class UserController extends Controller
     //GET User
     function getUser(Request $request): JsonResponse
     {
-        $user = User::query()->where('id', '=', $request->user()->id)->with('orders')->get();
-
-        if ($user === null) return new JsonResponse(null,404);
+        $user = User::findOrFail($request->user()->id);
 
         //sending result
         return new JsonResponse($user, 200);

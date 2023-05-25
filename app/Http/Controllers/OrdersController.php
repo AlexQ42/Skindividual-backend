@@ -55,7 +55,7 @@ class OrdersController extends Controller
         error_log($user_id);
 
         $result = Order::query()->select()->where('user_id', '=', $user_id)
-            ->orderBy('created_at', 'desc')->with('tickets');
+            ->orderBy('created_at', 'desc');
 
         $result = $result->paginate(8, null, null, $request->input('page') ?? 1);
 

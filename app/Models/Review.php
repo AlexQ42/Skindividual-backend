@@ -28,12 +28,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Review extends Model
 {
-    /*public function __construct(
-        public int $id,
-        public int $value
-    )
-    {}*/
-
     use HasFactory;
 
     public function user(): BelongsTo

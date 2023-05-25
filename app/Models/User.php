@@ -88,6 +88,8 @@ class User extends Authenticatable
         public string $lastname
     ) {}*/
 
+    protected $with = ['orders'];
+
         public function orders(): HasMany
         {
             return $this->hasMany(Order::class);

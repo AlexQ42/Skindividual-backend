@@ -35,6 +35,8 @@ class Order extends Model
         public int $id,
     ) {}*/
 
+    protected $with = ['tickets'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
