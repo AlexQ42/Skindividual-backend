@@ -1,13 +1,11 @@
 <?php
 
-use App\Controllers\EventsController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventsController;
 use App\Http\Controllers\OrdersController;
-use App\Controllers\UserController;
 use App\Http\Controllers\ReviewController;
-use App\Models\SkinType;
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,68 +18,42 @@ use Illuminate\Support\Facades\Cache;
 |
 */
 
-//Enum SkinType
-
-
-
-//Class SkinEvent
-class SkinEvent {
-    public function __construct(
-        public string   $name,
-        public int      $id,
-        public string   $place,
-        public DateTime $date,
-        public SkinType $skinType,
-        public string   $eventType,
-        public float    $price,
-        public int      $availableSpots,
-        public String   $description
-    ) {}
-}
-class Reviews {
-    public function __construct(
-    public int $value,
-    ){}
-}
-
-//create event-array (dummy) for cache - TODO: replace with ORM
-$events = [
-    new SkinEvent('hallo', 1, 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness', 49.99, 30, 'bla'),
-    new SkinEvent('ciao', 2, 'munich', (date_create("2023-09-28")), SkinType::Oily, 'counselling', 41.99, 40, 'bla'),
-    new SkinEvent('hola', 3, 'hamburg', (date_create("2023-06-15")), SkinType::Dry, 'wellness',49.99, 30, 'bla'),
-    new SkinEvent('hello', 4, 'frankfurt', (date_create("2023-07-28")), SkinType::Dry, 'counselling',41.99, 40, 'bla'),
-    new SkinEvent('salut', 5, 'dresden', (date_create("2023-04-15")), SkinType::Combination, 'course', 24.99, 25, 'bla'),
-    new SkinEvent('hi', 6, 'munich', (date_create("2023-09-18")), SkinType::Oily, 'counselling', 41.99, 40, 'bla')
-];
-Cache::put('events', $events);
-
-
 // Route 1 - GET Event List + Filter, Sorting, Paging
 Route::get('/events', [EventsController::class, 'getEvents']);
 
+// Route 2 - GET event by event ID
+Route::get('/events/{event_id}', [EventsController::class, 'getEventById']);
 
-// Route 2 - GET event by ID
-Route::get('/events/{eventId}', [EventsController::class, 'getEventById']);
+// Route 3 - GET single order by order ID
+Route::get('/orders/{order_id}', [OrdersController::class, 'getOrderById']);
 
-//Route X - GET order by ID
-Route::get('/orders/{userId}', [OrdersController::class, 'getOrderById']);
-
-//Route X - POST order
+// Route 4 - POST order
 Route::post('/orders', [OrdersController::class, 'postOrder']);
 
-// Route Lia GET User
-Route::get('/users/{userId}', [UserController::class, 'getUser']);
+// Route 5 - GET all orders of current user
+Route::get('/orders', [OrdersController::class, 'getOrders']);
 
-// Route Lia POST User
+// Route 6 - GET current user
+Route::get('/users', [UserController::class, 'getUser']);
+
+// Route 7 - POST User (register)
 Route::post('/users', [UserController::class, 'postUser']);
 
-//Route Lia DELETE User
-Route::delete('/users/{userId}', [UserController::class, 'deleteUser']);
+// Route 8 - DELETE User (delete account)
+Route::delete('/users', [UserController::class, 'deleteUser']);
 
-// Route Lia PATCH User
+// Route 9 - PATCH User
 Route::post('/users/{userId}', [UserController::class, 'patchUser']);
-//Route 1 - POST review
+
+// Route 10 - POST review
 Route::post('/events/{event_id}/reviews', [ReviewController::class, 'createReview']);
-//Route 2 - DELETE review
+
+// Route 11 - DELETE review
 Route::delete('/events/{event_id}/reviews/{review_id}', [ReviewController::class, 'destroyReview']);
 
+// Routes 12-14 - Authorization
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'login')->name('login');   // needed for auth via middleware
+    Route::post('/login', 'login');                       // needed for logging in
+    Route::post('/logout', 'logout');
+});

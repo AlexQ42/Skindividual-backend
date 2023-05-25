@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
-use App\Models\Review;
+use App\Models\Event;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\Event;
+use Illuminate\Routing\Controller;
 
-class EventsController
+class EventsController extends Controller
 {
     // Endpoint 1
-    function getEventById(int $eventId): JsonResponse
+    function getEventById(int $event_id): JsonResponse
     {
         // Validation (ID must not be negative)
-        if($eventId < 0) return new JsonResponse(null, 400);
+        if($event_id < 0) return new JsonResponse(null, 400);
 
         // Searching database for queried id, automatic Error Code 404 if id not found
-        $result = Event::findOrFail($eventId);
+        $result = Event::findOrFail($event_id);
 
         // sending the result
         return new JsonResponse($result, 200);
@@ -36,8 +36,8 @@ class EventsController
             'eventtype' => 'string|nullable',
             'search' => 'string|nullable',
             'sort' => 'string|nullable',
-            'page' => ['required', 'integer'],
-            'per-page' => ['required', 'integer']
+            'page' => 'integer|nullable|min:1',
+            'per-page' => 'integer|nullable|min:1|max:10'
         ]);
 
         // create query for Database
@@ -45,6 +45,7 @@ class EventsController
             ->leftJoin('reviews', 'events.id', '=', 'reviews.event_id')
             ->selectRaw('events.*, avg(reviews.value) as rating')
             ->groupBy('events.id');
+
 
         // apply place and enum filters
         if(request('place')) $query->whereRaw('LOWER(events.place) LIKE ?', ['%' . strtolower($request->input('place')) . '%']);
@@ -85,12 +86,13 @@ class EventsController
         }
         else
         {
+            // default sorting method
             $query->orderBy('date');
         }
 
         // pagination with ORM
-        $perPage = $request->input('per-page') ?? 4;
-        if ($request->input('page') !==null) $query->paginate($perPage);
+        $perPage = $request->input('per-page') ?? 6;
+        if ($request->input('page') !==null) $query->paginate($perPage, null, null, $request->input('page') ?? 1);
 
         /* pagination with php: cutting out the list part that is requested
         $page = $request->input('page') ?? 1;
