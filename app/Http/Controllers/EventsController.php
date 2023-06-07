@@ -51,6 +51,13 @@ class EventsController extends Controller
             ->groupBy('events.id');
 
 
+        // apply search
+        if(request('search')) $query->whereRaw('LOWER(events.name) LIKE ?', ['%' . strtolower($request->input('search')) . '%'])
+            ->orWhereRaw('LOWER(events.place) LIKE ?', ['%' . strtolower($request->input('search')) . '%'])
+            ->orWhereRaw('LOWER(events.description) LIKE ?', ['%' . strtolower($request->input('search')) . '%'])
+            ->orWhereRaw('LOWER(events.eventtype) LIKE ?', ['%' . strtolower($request->input('search')) . '%'])
+            ->orWhereRaw('LOWER(events.skintype) LIKE ?', ['%' . strtolower($request->input('search')) . '%']);
+
         // apply place and enum filters
         if(request('place')) $query->whereRaw('LOWER(events.place) LIKE ?', ['%' . strtolower($request->input('place')) . '%']);
         if(request('eventtype')) $query->whereRaw('LOWER(events.eventtype) LIKE ?', ['%' . strtolower($request->input('eventtype')) . '%']);
