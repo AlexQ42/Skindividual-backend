@@ -52,7 +52,6 @@ class OrdersController extends Controller
     function getOrders(Request $request): JsonResponse
     {
         $user_id = $request->user()->id;
-        error_log($user_id);
 
         $result = Order::query()->select()->where('user_id', '=', $user_id)
             ->orderBy('created_at', 'desc');

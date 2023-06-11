@@ -96,17 +96,11 @@ class EventsController extends Controller
         // apply search
         if(request('search')) $query->whereRaw('LOWER(events.name) LIKE ?', ['%' . strtolower($request->input('search')) . '%']);
 
+
         // pagination with ORM
         $perPage = $request->input('per-page') ?? 6;
-        if ($request->input('page') !==null) $query->paginate($perPage, null, null, $request->input('page') ?? 1);
+        $result = $query->paginate($perPage, null, null, ($request->input('page')));
 
-        /* pagination with php: cutting out the list part that is requested
-        $page = $request->input('page') ?? 1;
-        $perPage = $request->input('per-page') ?? 4;
-        $resultArray = $result->toArray();
-        $resultArray = array_slice($resultArray, ($page - 1) * $perPage, $perPage);*/
-
-        $result = $query->get();
 
         // sending the result
         return new JsonResponse($result, 200);
