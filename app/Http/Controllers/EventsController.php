@@ -77,7 +77,7 @@ class EventsController extends Controller
         // sorting
         if ($request->input('sort') === 'price')
         {
-            $query->orderBy('price', 'desc');
+            $query->orderBy('price', 'asc');
         }
         else if ($request->input('sort') === 'reviews')
         {
