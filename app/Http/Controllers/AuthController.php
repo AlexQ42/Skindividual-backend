@@ -24,7 +24,6 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             return response()->json([
-                'user' => $user,
                 'authorization' => [
                     'token' => $user->createToken('ApiToken')->plainTextToken,
                     'type' => 'bearer',
@@ -39,6 +38,8 @@ class AuthController extends Controller
 
     public function logout(): JsonResponse
     {
+        error_log(Auth::user());
+        error_log("logged out");
         Auth::user()->tokens()->delete();
         return response()->json([
             'message' => 'Successfully logged out',
