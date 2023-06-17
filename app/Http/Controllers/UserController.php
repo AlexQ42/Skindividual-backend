@@ -62,6 +62,16 @@ class UserController extends Controller
 
     function patchUser (Request $request): JsonResponse
     {
+        error_log($request);
+        // Validation
+        $request->validate([
+            'name' => 'string|max:255|nullable',
+            'email' => 'string|email|max:255|nullable',
+            'password' => 'string|min:4|nullable',  //TODO change to 8 characters
+            'firstname' => 'string|nullable',
+            'lastname' => 'string|nullable',
+            'skinType' => [new Enum(SkinType::class), 'nullable'],
+        ]);
 
     //check if user exists, looks for changes and changes them
        $user = $request->user();
@@ -69,6 +79,10 @@ class UserController extends Controller
         if ($user === null)
         {
             return new JsonResponse('This User does not exists', 404);
+        }
+        else if(User::whereEmail($request->email) !== null && $request->email !== $user->email)
+        {
+            return new JsonResponse('E-Mail-Adresse bereits vergeben', 400);
         }
         else
         {
@@ -97,7 +111,6 @@ class UserController extends Controller
             if ($request->skinType !== null && $request->skinType !== '' &&$request->skinType !== $user->skinType) {
                 $user->skinType = $request->skinType;
             }
-            error_log('mew');
             $user->save();
             return new JsonResponse('User was patched', 200);
         }
