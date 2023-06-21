@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Enum;
 
@@ -40,24 +41,28 @@ class UserController extends Controller
             'skinType' => [new Enum(SkinType::class), 'nullable'],
         ]);
 
-        /*check if email already exists, create user
-        $mailExists = User::where('email', '=', $request->email)->first();
-        if ($mailExists !== null)
+        $user = new User();
+        $user->name = $request->name;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->skinType = ($request->skinType === null? 'none' : $request->skinType);
+        $user->save();
+
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials))
         {
-            return new JsonResponse('Mail already exists', 422);
+            $user = Auth::user();
+            return response()->json([
+                'authorization' => [
+                    'token' => $user->createToken('ApiToken')->plainTextToken,
+                    'type' => 'bearer',
+                ]
+            ], 201);
         }
-        else */
-        {
-            $user = new User();
-            $user->name = $request->name;
-            $user->firstname = $request->firstname;
-            $user->lastname = $request->lastname;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->skinType = ($request->skinType === null? 'none' : $request->skinType);
-            $user->save();
-            return new JsonResponse('user created', 201);
-        }
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     function patchUser (Request $request): JsonResponse
