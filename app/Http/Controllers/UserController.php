@@ -85,7 +85,7 @@ class UserController extends Controller
         {
             return new JsonResponse('This User does not exists', 404);
         }
-        else if(User::whereEmail($request->email) !== null && $request->email !== $user->email)
+        else if(User::where("email", $request->email)->first() !== null && $request->email !== $user->email)
         {
             return new JsonResponse('E-Mail-Adresse bereits vergeben', 400);
         }
@@ -97,7 +97,6 @@ class UserController extends Controller
            // }
             if ($request->name !== null && $request->name !== '' &&$request->name !== $user->name) {
                 $user->name = $request->name;
-                error_log('Hi');
             }
             if ($request->firstname !== null && $request->firstname !== '' && $request->firstname !== $user->firstname) {
                 $user->firstname = $request->firstname;
