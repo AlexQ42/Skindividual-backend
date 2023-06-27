@@ -41,14 +41,12 @@ class OrdersController extends Controller
         // Validation User ID
         if($user->id < 0) return new JsonResponse("User ID is not valid", 400);
 
-        //TODO create Tickets and so on
 
         // Creating new Order
         $order = new Order();
         $order->user_id = $user->id;
 
         $tickets = $request->order;
-        print(implode(", ", $tickets[0]));
 
         $order->save();
 
