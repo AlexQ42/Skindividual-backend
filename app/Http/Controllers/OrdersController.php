@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Order;
 use App\Models\Ticket;
 use Illuminate\Http\JsonResponse;
@@ -57,6 +58,13 @@ class OrdersController extends Controller
                 $newTicket->order_id = $order->id;
                 $newTicket->event_id = (int)$ticket["event_id"];
                 $newTicket->save();
+                $event = Event::find($newTicket->event_id);
+                if($event->availableSpots > 0)
+                {
+                    $event->availableSpots--;
+                    $event->save();
+                }
+                else return new JsonResponse("Keine Plätze mehr verfügbar für Event ".$event->name, 422);
             }
         }
 

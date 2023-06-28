@@ -50,6 +50,8 @@ class EventsController extends Controller
             ->selectRaw('events.*, avg(reviews.value) as rating')
             ->groupBy('events.id');
 
+        $query->where("availableSpots", ">", "0");
+
         // apply place and enum filters
         if(request('place')) $query->whereRaw('LOWER(events.place) LIKE ?', ['%' . strtolower($request->input('place')) . '%']);
         if(request('eventtype')) $query->whereRaw('LOWER(events.eventtype) LIKE ?', ['%' . strtolower($request->input('eventtype')) . '%']);
