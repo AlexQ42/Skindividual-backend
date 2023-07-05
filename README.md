@@ -2,8 +2,7 @@
 
 1. Befehl `docker compose up` ausführen
 2. Datenbank verbinden:
-    Benutzername: skindividual
-    Passwort: 1234
+    Benutzername: skindividual      Passwort: 1234
 3. php und composer installieren, wenn noch nicht vorhanden
 4. Befehl `composer install` ausführen
 5. Befehl `php artisan migrate` ausführen
