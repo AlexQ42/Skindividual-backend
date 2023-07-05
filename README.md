@@ -1,92 +1,91 @@
-# Skindividual-backend
+## Starten des Backends
+
+1. ggf. Befehl `./vendor/bin/sail up` ausführen
+2. Befehl `docker compose up` ausführen
+3. Datenbank verbinden:
+    Benutzername: skindividual
+    Passwort: 1234
+4. Befehl `php artisan migrate` ausführen
+5. Vor dem Starten des Servers mit `php artisan serve` bitte folgende Inserts in der SQL Konsole der Datenbank ausführen:
+
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (1, 'Microneedling', 'Hamburg', '2023-08-21 00:00:00', 'combination', 'treatment', 99, 29, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-14 12:45:25', '2023-07-05 13:31:42');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (2, 'Meersalz-Peeling', 'München', '2023-10-15 00:00:00', 'dry', 'treatment', 43, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-15 21:01:56', '2023-05-15 21:02:01');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (3, 'Individuelle Beratung', 'Hamburg', '2023-08-15 21:02:44', 'dry', 'counselling', 28, 68, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-15 21:03:19', '2023-06-28 10:10:05');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (4, 'Wellness-Tage »Relax«', 'Hamburg', '2023-07-24 00:00:00', 'normal', 'wellness', 124, 29, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-22 00:00:00', '2023-06-28 10:10:05');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (5, 'Individuelle Beratung', 'Nürnberg', '2023-08-07 09:54:56', 'sensitive', 'counselling', 28, 69, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-06-07 09:55:43', '2023-07-05 13:32:30');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (6, 'Meersalz-Peeling', 'Nürnberg', '2023-09-10 00:00:00', 'oily', 'treatment', 43, 4, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-06-07 09:56:48', '2023-06-28 10:25:34');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (7, 'Wellness-Tage »Chillout«', 'München', '2023-09-28 09:57:23', 'sensitive', 'wellness', 135, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-06-07 09:58:03', '2023-06-07 09:58:04');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (8, 'Individuelle Beratung', 'Berlin', '2023-09-05 15:16:11', 'normal', 'counselling', 28, 70, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:16:56', '2023-07-05 15:16:59');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (9, 'Individuelle Beratung', 'München', '2023-10-07 15:17:16', 'oily', 'counselling', 28, 69, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:17:48', '2023-07-05 13:33:38');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (10, 'Microneedling', 'Berlin', '2023-08-21 00:00:00', 'oily', 'treatment', 99, 27, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-14 12:45:25', '2023-07-05 13:33:39');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (11, 'Anti-Aging-Behandlung', 'München', '2023-09-12 15:19:01', 'normal', 'treatment', 112, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:19:30', '2023-07-05 15:19:31');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (12, 'Anti-Aging-Behandlung', 'München', '2023-09-12 15:19:01', 'oily', 'treatment', 112, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:19:30', '2023-07-05 15:19:31');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (13, 'Anti-Aging-Behandlung', 'Hamburg', '2023-09-12 15:19:01', 'dry', 'treatment', 112, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:19:30', '2023-07-05 15:19:31');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (14, 'Wellness-Tage »Relax«', 'Hamburg', '2023-07-24 00:00:00', 'sensitive', 'wellness', 124, 29, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-22 00:00:00', '2023-06-28 10:10:05');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (15, 'Wellness-Tage »Chillout«', 'München', '2023-09-28 09:57:23', 'dry', 'wellness', 135, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-06-07 09:58:03', '2023-06-07 09:58:04');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (16, 'Wellness-Tage »Chillout«', 'München', '2023-09-28 09:57:23', 'combination', 'wellness', 135, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-06-07 09:58:03', '2023-06-07 09:58:04');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (17, 'Individuelle Beratung', 'Berlin', '2023-10-07 15:17:16', 'combination', 'counselling', 28, 70, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:17:48', '2023-07-05 15:17:52');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (18, 'Meersalz-Peeling', 'Nürnberg', '2023-09-10 00:00:00', 'combination', 'treatment', 43, 4, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-06-07 09:56:48', '2023-06-28 10:25:34');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (19, 'Wellness-Tage »Relax«', 'Nürnberg', '2023-07-24 00:00:00', 'combination', 'wellness', 124, 27, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-22 00:00:00', '2023-07-05 13:31:42');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (20, 'Nachhaltige Hautpflege', 'Berlin', '2023-11-28 15:23:15', 'normal', 'course', 55, 40, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:23:42', '2023-07-05 15:23:43');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (21, 'Nachhaltige Hautpflege', 'Berlin', '2023-11-28 15:23:15', 'oily', 'course', 55, 40, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:23:42', '2023-07-05 15:23:43');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (22, 'Schönheit im Alter', 'Berlin', '2023-11-28 15:23:15', 'normal', 'course', 55, 40, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:23:42', '2023-07-05 15:23:43');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (23, 'Nachhaltige Hautpflege', 'Berlin', '2023-09-26 15:23:15', 'sensitive', 'course', 55, 40, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:23:42', '2023-07-05 15:23:43');
+INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (24, 'Sonnenschutz und UV', 'Hamburg', '2023-11-23 15:23:15', 'combination', 'course', 70, 40, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-07-05 15:23:42', '2023-07-05 15:23:43');
+
+
+INSERT INTO skindividual.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, skinType, firstname, lastname) VALUES (23, 'FriedaFreundlich', 'friedaf@gmx.de', null, '$2y$10$XIN3RYStkr3oiWCF6JYOZ.Jh4fDywvMfEeqXN8eG57ykEyNX16LO2', null, '2023-07-05 13:27:47', '2023-07-05 13:27:47', 'combination', 'Frieda', 'Freundlich');
+INSERT INTO skindividual.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, skinType, firstname, lastname) VALUES (24, 'EllaWiese', 'ellaw@bla.de', null, '$2y$10$7v7q1lvdmwGP.t0YbwbNb.WjA2ao1uh/YZjLhCVtacny8uy3dh8le', null, '2023-07-05 13:28:10', '2023-07-05 13:28:10', 'dry', 'Ella', 'Wiese');
+INSERT INTO skindividual.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, skinType, firstname, lastname) VALUES (25, 'TildaGroßmann', 'TildaGroßmann@hof.de', null, '$2y$10$r3EOp/5Vf3lFeE4nCp.xUOy4nkdRPSo5chOvkaQkFv3eBMM948VD.', null, '2023-07-05 13:28:48', '2023-07-05 13:28:48', 'sensitive', 'Tilda', 'Großmann');
+INSERT INTO skindividual.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, skinType, firstname, lastname) VALUES (26, 'LuisaSchwarz', 'luisaaa@yolo.de', null, '$2y$10$dVG/BBu9sz4HewE9Rp.BSe5y/bAkfaNA5FXizZzfDG2YeALfQ8pBe', null, '2023-07-05 13:29:15', '2023-07-05 13:29:15', 'none', 'Luisa', 'Schwarz');
+INSERT INTO skindividual.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, skinType, firstname, lastname) VALUES (27, 'TimoThaler', 'timoth@yahoo.com', null, '$2y$10$eVIdwybNpXQYNfiUiOqmEOjepFfgF2BGJF6oJGUnS0v9Uw/27dRPm', null, '2023-07-05 13:29:50', '2023-07-05 13:29:50', 'oily', 'Timo', 'Thaler');
+INSERT INTO skindividual.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at, skinType, firstname, lastname) VALUES (28, 'IdaSchiffer', 'dieEchteIda@aida.de', null, '$2y$10$43az1NxH9p5gGkwwDSbpsOWpC4V16kC1Ic0SlgSyPPQVrGHDIlyVy', null, '2023-07-05 13:30:33', '2023-07-05 13:30:33', 'sensitive', 'Ida', 'Schiffer');
+
+
+INSERT INTO skindividual.orders (id, created_at, updated_at, user_id) VALUES (17, '2023-07-05 13:31:42', '2023-07-05 13:31:42', 23);
+INSERT INTO skindividual.orders (id, created_at, updated_at, user_id) VALUES (18, '2023-07-05 13:32:30', '2023-07-05 13:32:30', 28);
+INSERT INTO skindividual.orders (id, created_at, updated_at, user_id) VALUES (19, '2023-07-05 13:33:38', '2023-07-05 13:33:38', 27);
+
+
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (62, 17, 1, '2023-07-05 13:31:42', '2023-07-05 13:31:42');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (63, 17, 19, '2023-07-05 13:31:42', '2023-07-05 13:31:42');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (64, 17, 19, '2023-07-05 13:31:42', '2023-07-05 13:31:42');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (65, 18, 5, '2023-07-05 13:32:30', '2023-07-05 13:32:30');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (66, 19, 9, '2023-07-05 13:33:38', '2023-07-05 13:33:38');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (67, 19, 10, '2023-07-05 13:33:38', '2023-07-05 13:33:38');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (68, 19, 10, '2023-07-05 13:33:39', '2023-07-05 13:33:39');
+INSERT INTO skindividual.tickets (id, order_id, event_id, created_at, updated_at) VALUES (69, 19, 10, '2023-07-05 13:33:39', '2023-07-05 13:33:39');
 
 
 
-## Getting started
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (10, 4, 23, 1, '2023-07-05 15:34:47', '2023-07-05 15:34:48');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (11, 5, 23, 1, '2023-07-05 15:34:47', '2023-07-05 15:34:48');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (12, 5, 28, 1, '2023-07-05 15:34:47', '2023-07-05 15:34:48');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (13, 4, 23, 2, '2023-07-05 15:35:45', '2023-07-05 15:35:46');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (14, 3, 26, 3, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (15, 3, 24, 3, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (16, 5, 27, 3, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (17, 5, 27, 4, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (18, 4, 27, 5, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (19, 3, 25, 5, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (20, 5, 25, 6, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (21, 3, 25, 7, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (22, 4, 23, 7, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (23, 4, 23, 8, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (24, 5, 28, 8, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (25, 5, 26, 10, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (26, 5, 26, 11, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (27, 4, 26, 12, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (28, 4, 23, 12, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (29, 4, 27, 12, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (30, 5, 27, 13, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (31, 2, 25, 13, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (32, 4, 25, 14, '2023-07-05 15:36:32', '2023-07-05 15:36:34');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (33, 5, 25, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (34, 1, 24, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (35, 4, 27, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (36, 5, 23, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (37, 4, 28, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
+INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (38, 5, 25, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.hof-university.de/awaas/skindividual-backend.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.hof-university.de/awaas/skindividual-backend/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
