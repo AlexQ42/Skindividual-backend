@@ -1,12 +1,13 @@
 ## Starten des Backends
 
-1. ggf. Befehl `./vendor/bin/sail up` ausführen
-2. Befehl `docker compose up` ausführen
-3. Datenbank verbinden:
+1. Befehl `docker compose up` ausführen
+2. Datenbank verbinden:
     Benutzername: skindividual
     Passwort: 1234
-4. Befehl `php artisan migrate` ausführen
-5. Vor dem Starten des Servers mit `php artisan serve` bitte folgende Inserts in der SQL Konsole der Datenbank ausführen:
+3. php und composer installieren, wenn noch nicht vorhanden
+4. Befehl `composer install` ausführen
+5. Befehl `php artisan migrate` ausführen
+6. Vor dem Starten des Servers mit `php artisan serve` bitte folgende Inserts in der SQL Konsole der Datenbank ausführen:
 
 INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (1, 'Microneedling', 'Hamburg', '2023-08-21 00:00:00', 'combination', 'treatment', 99, 29, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-14 12:45:25', '2023-07-05 13:31:42');
 INSERT INTO skindividual.events (id, name, place, date, skinType, eventType, price, availableSpots, description, created_at, updated_at) VALUES (2, 'Meersalz-Peeling', 'München', '2023-10-15 00:00:00', 'dry', 'treatment', 43, 30, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam', '2023-05-15 21:01:56', '2023-05-15 21:02:01');
