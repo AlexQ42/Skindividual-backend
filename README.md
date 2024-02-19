@@ -4,6 +4,16 @@
 <br>
 <br>
 
+## Database Model
+
+The diagram below shows the relations between the model classes used in the project. 
+
+<p align="center">
+<img src="https://github.com/AlexQ42/Skindividual-backend/blob/main/screenshots/Database.png" width="70%" padding="10px 10px 10px 10px">
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<br>
+
 ## How to use
 
 1. Execute command `docker compose up`
