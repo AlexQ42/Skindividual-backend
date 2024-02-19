@@ -2,6 +2,7 @@
 
 "Skindividual" is a fictional online shop created for a university team project. The shop sells tickets for events and individual appointments dealing with skincare and wellness in Germany. The website's backend is written in php using the Laravel framework and is built as a REST-API. <br><br>The frontend of the website and further information about the project can be found in the [skindividual-frontend repository](https://github.com/AlexQ42/Skindividual-frontend).
 <br>
+<br>
 
 ## How to use
 
@@ -98,6 +99,7 @@ INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, upda
 INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (38, 5, 25, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
 
 <br>
+
 ## Developers
 
 This website was developed as a team project. I would like to say thanks to my fellow team members:
