@@ -96,4 +96,17 @@ INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, upda
 INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (37, 4, 28, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
 INSERT INTO skindividual.reviews (id, value, user_id, event_id, created_at, updated_at) VALUES (38, 5, 25, 19, '2023-07-05 15:41:38', '2023-07-05 15:41:41');
 
+## Developers
+
+This website was developed as a team project. I would like to say thanks to my fellow team members:
+
+- Mai Linh Phung
+- [Lia Schaarschmidt](https://github.com/Auriko10)
+- [Marina Waller](https://github.com/marinaWaller)
+<br>
+
+## Contact
+
+If you have any questions about this project, feel free to contact me. I will answer as fast as I can.
+
 
