@@ -1,6 +1,6 @@
 ## Description
 
-"Skindividual" is a fictional online shop created for a university team project. The shop sells tickets for events and individual appointments dealing with skincare and wellness in Germany. The website's backend is written in php using the Laravel framework and is built as a REST-API. <br><br>The frontend of the website and further information about the project can be found in the [skindividual-frontend repository](https://github.com/AlexQ42/Skindividual-frontend).
+"Skindividual" is a fictional online shop created for a university team project. The shop sells tickets for events and individual appointments dealing with skincare and wellness in Germany. The website's backend is written in php using the Laravel framework and is built as a REST-API. <br><br>The frontend of the website and further information about the project can be found in the [skindividual-frontend repository](https://github.com/alexandrawaas/Skindividual-frontend).
 <br>
 <br>
 
@@ -9,7 +9,7 @@
 The diagram below shows the relations between the model classes used in the project. 
 
 <p align="center">
-<img src="https://github.com/AlexQ42/Skindividual-backend/blob/main/screenshots/Database.png" width="70%" padding="10px 10px 10px 10px">
+<img src="https://github.com/alexandrawaas/Skindividual-backend/blob/main/screenshots/Database.png" width="70%" padding="10px 10px 10px 10px">
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 <br>
