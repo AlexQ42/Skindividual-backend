@@ -25,7 +25,7 @@ The diagram below shows the relations between the model classes used in the proj
 6. Start server by executing `php artisan serve`
 <br>
 
-By default, the database will be empty. Before starting the server, it is therefore recommended to execute these [example data INSERT statements](https://github.com/alexandrawaas/Skindividual-backend/blob/main/sql%20inserts/skindividual%20sql%20example%20data.txt) in the database's SQL console:
+By default, the database will be empty. Before starting the server, it is therefore recommended to execute these [example data INSERT statements](https://github.com/alexandrawaas/Skindividual-backend/blob/main/sql%20inserts/skindividual%20sql%20example%20data.txt) in the database's SQL console.
 <br>
 <br>
 
